@@ -115,6 +115,7 @@ function cellClicked(ev, elCell, i, j) {
             break;
         case 2:
             if (!cell.isMarked && !cell.isShown) {
+                // if (gGame.markedCount > 0) {
                 cell.isMarked = true
                 gGame.markedCount--
                 var elMarkedCount = document.querySelector('.flagCount');
@@ -122,6 +123,7 @@ function cellClicked(ev, elCell, i, j) {
                 elCell.innerHTML = gFlag;
 
                 break
+                // }
             } else {
                 cell.isMarked = false
                 if (!cell.isShown) {
@@ -153,9 +155,16 @@ function blowUpNegs(cellI, cellJ, board, elCell) {
                 board[i][j].isShown = true;
                 var elmins = document.querySelector(`.cell-${i}-${j}`);
                 elmins.innerHTML = board[i][j].minesAroundCount
+                if (board[i][j].isMarked) {
+                    gGame.markedCount++
+                    var elMarkedCount = document.querySelector('.flagCount');
+                    elMarkedCount.innerText = gGame.markedCount
+
+                }
                 if (board[i][j].minesAroundCount === '') {
                     elmins.classList.add('emty')
                     elCell.classList.add('emty')
+
                 }
             }
         }
