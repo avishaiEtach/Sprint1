@@ -17,6 +17,11 @@ var gGame = {
 var gBoard;
 var ceckTime = 1;
 var gTimerInterval;
+var gPopAudio = 'sounds/pop.mp3'
+var gWhooshAudio = 'sounds/Whoosh.mp3'
+var gBrickAudio = 'sounds/Brick.mp3'
+var gLoseAudio = 'sounds/Lose.mp3'
+var gWinAudio = 'sounds/Win.mp3'
 
 
 
@@ -98,6 +103,8 @@ function cellClicked(ev, elCell, i, j) {
             if (cell.isMarked) break;
             if (cell.isShown) break;
             else {
+                var audio = new Audio(gBrickAudio);
+                audio.play();
                 cell.isShown = true
                 gGame.shownCount++
                 console.log(gGame.shownCount)
@@ -119,6 +126,8 @@ function cellClicked(ev, elCell, i, j) {
                 cell.isMarked = true
                 gGame.markedCount--
                 var elMarkedCount = document.querySelector('.flagCount');
+                audio = new Audio(gPopAudio);
+                audio.play();
                 elMarkedCount.innerText = gGame.markedCount
                 elCell.innerHTML = gFlag;
 
@@ -130,6 +139,8 @@ function cellClicked(ev, elCell, i, j) {
                     gGame.markedCount++
                     var elMarkedCount = document.querySelector('.flagCount');
                     elMarkedCount.innerText = gGame.markedCount
+                    audio = new Audio(gWhooshAudio);
+                    audio.play();
                 }
                 elCell.innerHTML = chackCell(cell);
 
@@ -153,8 +164,8 @@ function blowUpNegs(cellI, cellJ, board, elCell) {
                     gGame.shownCount++
                 }
                 board[i][j].isShown = true;
-                var elmins = document.querySelector(`.cell-${i}-${j}`);
-                elmins.innerHTML = board[i][j].minesAroundCount
+                var elNregs = document.querySelector(`.cell-${i}-${j}`);
+                elNregs.innerHTML = board[i][j].minesAroundCount
                 if (board[i][j].isMarked) {
                     gGame.markedCount++
                     var elMarkedCount = document.querySelector('.flagCount');
@@ -162,7 +173,7 @@ function blowUpNegs(cellI, cellJ, board, elCell) {
 
                 }
                 if (board[i][j].minesAroundCount === '') {
-                    elmins.classList.add('emty')
+                    elNregs.classList.add('emty')
                     elCell.classList.add('emty')
 
                 }
@@ -268,6 +279,8 @@ function GameOver() {
     }
     document.querySelector('.modal').style.display = 'block'
     document.querySelector('.modal h2').innerText = 'You Lose'
+    var audio = new Audio(gLoseAudio);
+    audio.play();
 }
 
 function GameWin() {
@@ -278,6 +291,8 @@ function GameWin() {
         gGame.isOn = false;
         document.querySelector('.modal').style.display = 'block'
         document.querySelector('.modal h2').innerText = 'You Win'
+        var audio = new Audio(gWinAudio);
+        audio.play();
     }
 }
 
